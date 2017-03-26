@@ -19,12 +19,12 @@ def da_boas_vindas
     nome
 end
 
-def escolhendo_palavra_secreta
+def avisa_escolhendo_palavra
     puts "Escolhendo palavra secreta"
-    palavra_secreta = "Programador"
-    puts "Palavra secreta com #{palavra_secreta.size} letras."
+end
 
-    palavra_secreta.downcase
+def avisa_palavra_escolhida palavra_secreta
+    puts "Palavra secreta com #{palavra_secreta.size} letras."
 end
 
 def cabecalho_de_tentativas erros, chutes, mascara

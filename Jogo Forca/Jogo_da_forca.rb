@@ -1,5 +1,15 @@
 require_relative 'ui'
 
+def escolhendo_palavra_secreta
+    avisa_escolhendo_palavra
+    texto = File.read "dicionario.txt"
+    palavras = texto.split "\n"
+    indice = rand palavras.size
+    palavra_secreta = palavras[indice]
+    avisa_palavra_escolhida palavra_secreta
+    palavra_secreta.downcase
+end
+
 def palavra_mascarada chutes, palavra_secreta
     mascara = ""
     for letra in palavra_secreta.chars
