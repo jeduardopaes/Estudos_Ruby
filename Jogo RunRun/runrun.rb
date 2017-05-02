@@ -70,22 +70,48 @@ end
 
 def movimenta_fantasmas mapa
     caracter_do_fantasma = "F"
+    novo_mapa = copia_mapa mapa
     mapa.each_with_index do |linha_atual, linha|
         linha_atual.chars.each_with_index do |caracter_atual, coluna|
             eh_fantasma = caracter_atual == caracter_do_fantasma
             if eh_fantasma
-                move_fantasma mapa, linha, coluna
+                move_fantasma mapa, novo_mapa, linha, coluna
             end
         end
     end
+    novo_mapa
 end
 
-def move_fantasma mapa, linha, coluna
-    posicao = [linha, coluna + 1]
-    if posicao_valida? mapa, posicao
-        mapa[linha][coluna] = " "
-        mapa[posicao[0]][posicao[1]] = "F"
+def copia_mapa mapa
+    novo_mapa = mapa.join("\n").tr("F", " ").split "\n"
+end
+
+def soma_vetor vet1, vet2
+    [vet1[0] + vet2[0], vet1[1] + vet2[1]]
+end
+
+def posicoes_validas_a_partir_de mapa, novo_mapa, posicao
+    posicoes = []
+    movimentos = [[+1,0],[0,+1],[-1,0],[0,-1]]
+    
+    movimentos.each do |movimento|
+        nova_posicao = soma_vetor movimento, posicao
+        if (posicao_valida? mapa, nova_posicao) && (posicao_valida? novo_mapa, nova_posicao)
+            posicoes << nova_posicao
+        end
     end
+
+    posicoes
+end
+
+def move_fantasma mapa, novo_mapa, linha, coluna
+    posicoes = posicoes_validas_a_partir_de mapa, novo_mapa, [linha, coluna]
+    return if posicoes.empty?
+    
+    aleatorio = rand posicoes.size
+    posicao = posicoes[aleatorio]
+    mapa[linha][coluna] = " "
+    novo_mapa[posicao[0]][posicao[1]] = "F"
 end
 
 #========================================================
@@ -95,7 +121,7 @@ def joga nome
     while true
         desenha_mapa mapa
         movimenta_heroi mapa
-        movimenta_fantasmas mapa
+        mapa = movimenta_fantasmas mapa
     end
 end
 

@@ -12,5 +12,5 @@ end
 
 def pede_movimento
     puts"Para onde irá se mover: (W/A/S/D)"
-    movimento = gets.strip
+    movimento = gets.upcase.strip
 end
