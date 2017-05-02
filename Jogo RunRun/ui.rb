@@ -14,3 +14,9 @@ def pede_movimento
     puts"Para onde irá se mover: (W/A/S/D)"
     movimento = gets.upcase.strip
 end
+
+def game_over
+    puts "==========================="
+    puts "||       GAME-OVER       ||"
+    puts "==========================="
+end

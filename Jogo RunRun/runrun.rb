@@ -1,4 +1,5 @@
 require_relative 'ui'
+require_relative 'heroi'
 
 def le_mapa numero_do_mapa
     arquivo = "mapa#{numero_do_mapa}.txt"
@@ -32,35 +33,22 @@ def encontra_jogador mapa
     mapa.each_with_index do |linha_atual, linha|
         coluna_do_heroi = linha_atual.index caracter_do_heroi
         if coluna_do_heroi
-            num = linha.to_i
-            col = coluna_do_heroi.to_i
-            return [num, col]
+            jogador = Heroi.new
+            jogador.linha = linha
+            jogador.coluna = coluna_do_heroi
+            return jogador
         end
     end
-    #Não Achei nada
-end
-
-def calcula_nova_posicao heroi, direcao
-    nova_posicao = heroi.dup
-    movimentos = {
-        "W" => [-1,0],
-        "S" => [+1,0],
-        "A" => [0,-1],
-        "D" => [0,+1]
-    }
-    movimento = movimentos[direcao]
-    nova_posicao[0] += movimento[0]
-    nova_posicao[1] += movimento[1]
-    nova_posicao
+    nil
 end
 
 def movimenta_heroi mapa
     direcao = pede_movimento
     heroi = encontra_jogador mapa
-    nova_posicao = calcula_nova_posicao heroi, direcao
-    if posicao_valida? mapa, nova_posicao
-        mapa[heroi[0]][heroi[1]] = " "
-        mapa[nova_posicao[0]][nova_posicao[1]] = "H"
+    nova_posicao = heroi.calcula_nova_posicao direcao
+    if posicao_valida? mapa, nova_posicao.to_array
+        mapa[heroi.linha][heroi.coluna] = " "
+        mapa[nova_posicao.linha][nova_posicao.coluna] = "H"
     end
 end
 
@@ -116,12 +104,22 @@ end
 
 #========================================================
 
+def jogador_perdeu? mapa
+    perdeu = !encontra_jogador(mapa)
+end
+
 def joga nome
     mapa = le_mapa 2
     while true
         desenha_mapa mapa
         movimenta_heroi mapa
         mapa = movimenta_fantasmas mapa
+
+        if jogador_perdeu?(mapa)
+            game_over
+            break
+        end
+
     end
 end
 
