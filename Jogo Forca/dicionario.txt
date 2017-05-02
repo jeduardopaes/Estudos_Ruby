@@ -1,15 +1,16 @@
+17
 alura
 code smell
 desenvolvedor
 programador
 dry
 yagni
-incostitucional
+inconstitucional
 animal
 cachorros
 paralelogramos
 acronimos
-insconstitucionalissimamente
+inconstitucionalissimamente
 canada
 brasil
 refatorar
