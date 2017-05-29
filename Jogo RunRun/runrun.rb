@@ -47,8 +47,8 @@ def movimenta_heroi mapa
     heroi = encontra_jogador mapa
     nova_posicao = heroi.calcula_nova_posicao direcao
     if posicao_valida? mapa, nova_posicao.to_array
-        mapa[heroi.linha][heroi.coluna] = " "
-        mapa[nova_posicao.linha][nova_posicao.coluna] = "H"
+        heroi.remove_do mapa
+        nova_posicao.coloca_no mapa
     end
 end
 
